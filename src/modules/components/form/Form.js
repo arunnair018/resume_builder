@@ -1,40 +1,36 @@
 import "./Form.css";
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Taggit from "../taggit/Taggit";
+import { update } from "../../../store/profileStore";
 
-const Form = ({ formProp }) => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    address: "",
-    mobile: "",
-  });
-  const [tags, setTags] = useState([]);
+const Form = () => {
+  /**
+   * State management
+   */
 
-  const [edInput, setEdInput] = useState([
-    { Institute: "", Year: "", Degree: "" },
-  ]);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const [exInput, setExInput] = useState([
-    { Company: "", Year: "", Designation: "" },
-  ]);
+  // init states
+  const [form, setForm] = useState(state.form);
+  const [tags, setTags] = useState(state.tags);
+  const [edInput, setEdInput] = useState(state.edInput);
+  const [exInput, setExInput] = useState(state.exInput);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // state change handling
+  const handleTags = async (value) => {
+    await setTags(value);
   };
 
-  const handleTags = (value) => {
-    setTags(value);
+  const handleEdInput = async (e) => {
+    e.preventDefault();
+    await setEdInput([...edInput, { Institute: "", Year: "", Degree: "" }]);
   };
 
-  const handleEdInput = (e) => {
+  const handleExInput = async (e) => {
     e.preventDefault();
-    setEdInput([...edInput, { Institute: "", Year: "", Degree: "" }]);
-  };
-
-  const handleExInput = (e) => {
-    e.preventDefault();
-    setExInput([...exInput, { Company: "", Year: "", Designation: "" }]);
+    await setExInput([...exInput, { Company: "", Year: "", Designation: "" }]);
   };
 
   const handleEdInputChange = async (index, e) => {
@@ -79,12 +75,25 @@ const Form = ({ formProp }) => {
     console.log(exInput);
   };
 
-  // useEffect(() => {
-  //   setForm(props.form);
-  //   setTags(props.tags);
-  //   setExperience(props.experience);
-  //   setEducation(props.education);
-  // }, [props]);
+  /**
+   * submitting form
+   */
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let state = {
+      form,
+      tags,
+      edInput,
+      exInput,
+    };
+    console.log(state);
+    dispatch(update(state));
+  };
+
+  /**
+   * return JSX
+   */
 
   return (
     <>
@@ -147,11 +156,12 @@ const Form = ({ formProp }) => {
               type="text"
               className="form-control"
               id="address"
-              value={form.value || ""}
+              value={form.address || ""}
               placeholder="Enter Address"
               onChange={(e) => {
                 const newState = { ...form, address: e.target.value };
                 setForm(newState);
+                console.log(newState);
               }}
             />
           </div>
