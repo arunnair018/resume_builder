@@ -11,9 +11,7 @@ const Landing = () => {
         <p>A simple and basic WebApp to create resume.</p>
         <p className="lead">
           <Link to="/create">
-            <button className="btn btn-primary btn-lg" href="#" role="button">
-              Start Building
-            </button>
+            <button className="btn btn-primary btn-lg">Start Building</button>
           </Link>
         </p>
       </div>
