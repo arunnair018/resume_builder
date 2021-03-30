@@ -1,4 +1,4 @@
-# Simple Resume Builder
+# Resume Builder
 
 A simple WebApp to create minimal resume.
 
@@ -10,6 +10,9 @@ A simple WebApp to create minimal resume.
 
 ## Tech used
 
-ReactJs, Bootstrap4, Redux.
+ReactJs, Bootstrap4, Redux.  
+<br/>
 
 # Live Demo
+
+https://competent-kilby-16b1eb.netlify.app/
