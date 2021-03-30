@@ -1,5 +1,3 @@
-import { combineReducers } from "redux";
-
 const UPDATE_STATE = "UPDATE_STATE";
 const RESET_STATE = "RESET_STATE";
 
@@ -47,7 +45,12 @@ function profileReducer(state = defaultState, action) {
     case UPDATE_STATE:
       return { ...state, ...action.state };
     case RESET_STATE:
-      return defaultState;
+      return {
+        ...state,
+        ...defaultState,
+        edInput: [{ Institute: "", Year: "", Degree: "" }],
+        exInput: [{ Company: "", Year: "", Designation: "" }],
+      };
     default:
       return state;
   }

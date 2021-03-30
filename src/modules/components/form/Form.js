@@ -3,6 +3,7 @@ import { React, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Taggit from "../taggit/Taggit";
 import { update } from "../../../store/profileStore";
+import { useHistory } from "react-router-dom";
 
 const Form = () => {
   /**
@@ -11,6 +12,7 @@ const Form = () => {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // init states
   const [form, setForm] = useState(state.form);
@@ -35,7 +37,6 @@ const Form = () => {
 
   const handleEdInputChange = async (index, e) => {
     e.preventDefault();
-    console.log(e.target.name);
     const values = [...edInput];
     switch (e.target.name) {
       case "Institute":
@@ -51,12 +52,10 @@ const Form = () => {
         break;
     }
     await setEdInput(values);
-    console.log(edInput);
   };
 
   const handleExInputChange = async (index, e) => {
     e.preventDefault();
-    console.log(e.target.name);
     const values = [...exInput];
     switch (e.target.name) {
       case "Company":
@@ -72,7 +71,6 @@ const Form = () => {
         break;
     }
     await setExInput(values);
-    console.log(exInput);
   };
 
   /**
@@ -87,8 +85,8 @@ const Form = () => {
       edInput,
       exInput,
     };
-    console.log(state);
     dispatch(update(state));
+    history.push("/view");
   };
 
   /**
@@ -108,6 +106,7 @@ const Form = () => {
             <label htmlFor="exampleInputEmail1">Name</label>
             <input
               type="text"
+              required
               className="form-control"
               id="name"
               value={form.name || ""}
@@ -161,7 +160,6 @@ const Form = () => {
               onChange={(e) => {
                 const newState = { ...form, address: e.target.value };
                 setForm(newState);
-                console.log(newState);
               }}
             />
           </div>
@@ -172,39 +170,44 @@ const Form = () => {
           <div>
             {edInput.map((field, i) => (
               <>
-                <div key={i} className="row">
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Institute</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Institute}
-                      id={field.Institute + i.toString()}
-                      onChange={(e) => handleEdInputChange(i, e)}
-                      name="Institute"
-                    />
-                  </div>
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Year</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Year}
-                      id={field.Year + i.toString()}
-                      name="Year"
-                      onChange={(e) => handleEdInputChange(i, e)}
-                    />
-                  </div>
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Degree</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Degree}
-                      id={field.Degree + i.toString()}
-                      name="Degree"
-                      onChange={(e) => handleEdInputChange(i, e)}
-                    />
+                <div key={i}>
+                  <div className="row">
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Institute</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Institute}
+                        id={field.Institute + i.toString()}
+                        onChange={(e) => handleEdInputChange(i, e)}
+                        name="Institute"
+                        required
+                      />
+                    </div>
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Year</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Year}
+                        id={field.Year + i.toString()}
+                        name="Year"
+                        onChange={(e) => handleEdInputChange(i, e)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Degree</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Degree}
+                        id={field.Degree + i.toString()}
+                        name="Degree"
+                        onChange={(e) => handleEdInputChange(i, e)}
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
               </>
@@ -220,39 +223,44 @@ const Form = () => {
           <div>
             {exInput.map((field, i) => (
               <>
-                <div key={i} className="row">
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Company</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Institute}
-                      id={field.Institute + i.toString()}
-                      name="Company"
-                      onChange={(e) => handleExInputChange(i, e)}
-                    />
-                  </div>
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Year</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Year}
-                      id={field.Year + i.toString()}
-                      name="Year"
-                      onChange={(e) => handleExInputChange(i, e)}
-                    />
-                  </div>
-                  <div className="form-group col-sm-12 col-md-4">
-                    <label>Designation</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={field.Degree}
-                      id={field.Degree + i.toString()}
-                      name="Designation"
-                      onChange={(e) => handleExInputChange(i, e)}
-                    />
+                <div key={i}>
+                  <div className="row">
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Company</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Company}
+                        id={field.Institute + i.toString()}
+                        name="Company"
+                        onChange={(e) => handleExInputChange(i, e)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Year</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Year}
+                        id={field.Year + i.toString()}
+                        name="Year"
+                        onChange={(e) => handleExInputChange(i, e)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group col-sm-12 col-md-4">
+                      <label>Designation</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={field.Designation}
+                        id={field.Degree + i.toString()}
+                        name="Designation"
+                        onChange={(e) => handleExInputChange(i, e)}
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
               </>
